@@ -399,7 +399,6 @@ h4 {
 }
 
 .sequence-card,
-.objection-card,
 .pitch-card,
 .response-bank article {
   border: 1px solid var(--line);
@@ -434,12 +433,6 @@ h4 {
   border-radius: 8px;
   background: var(--surface-strong);
   font-weight: 650;
-}
-
-.checklist-block {
-  display: grid;
-  gap: 6px;
-  padding-top: 4px;
 }
 
 .check-line {
@@ -482,20 +475,8 @@ h4 {
   box-shadow: none;
 }
 
-.objection-card {
-  display: grid;
-  gap: 8px;
-  padding: 14px;
-}
-
-.objection-card strong {
-  color: var(--red);
-}
-
-.objection-card p {
-  margin: 0;
-  color: var(--ink);
-  line-height: 1.5;
+.action-band {
+  margin-top: 12px;
 }
 
 .theme-stack {

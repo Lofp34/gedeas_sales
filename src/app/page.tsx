@@ -28,7 +28,6 @@ type AppState = {
   activeThemeId: string;
   activeScenarioSectionId: string;
   selectedScenarioId: string;
-  openingChecks: Record<string, boolean[]>;
   discoveryChecks: Record<string, Record<string, boolean[]>>;
   actionChecks: Record<string, boolean[]>;
   notes: SessionNotes;
@@ -42,7 +41,6 @@ const initialState = (): AppState => ({
   activeThemeId: "",
   activeScenarioSectionId: "",
   selectedScenarioId: "",
-  openingChecks: {},
   discoveryChecks: {},
   actionChecks: {},
   notes: defaultNotes,
@@ -75,7 +73,6 @@ function coerceState(value: unknown): AppState {
     activeThemeId: partial.activeThemeId || "",
     activeScenarioSectionId: partial.activeScenarioSectionId || "",
     selectedScenarioId: partial.selectedScenarioId || "",
-    openingChecks: partial.openingChecks || {},
     discoveryChecks: partial.discoveryChecks || {},
     actionChecks: partial.actionChecks || {},
     notes: {
@@ -340,20 +337,6 @@ export default function Home() {
     }));
   }
 
-  function toggleOpeningCheck(stepId: string, index: number) {
-    setState((current) => {
-      const next = [...(current.openingChecks[stepId] || [])];
-      next[index] = !next[index];
-      return {
-        ...current,
-        openingChecks: {
-          ...current.openingChecks,
-          [stepId]: next,
-        },
-      };
-    });
-  }
-
   function toggleDiscoveryCheck(themeId: string, index: number) {
     setState((current) => {
       const personChecks = current.discoveryChecks[current.selectedPersonId] || {};
@@ -459,7 +442,6 @@ export default function Home() {
       selectedPerson: selectedPlan || leaderPlan,
       selectedScenario,
       notes: state.notes,
-      openingChecks: state.openingChecks,
       discoveryChecks: state.discoveryChecks[state.selectedPersonId] || {},
       actionChecks: state.actionChecks[state.selectedPersonId] || [],
     };
@@ -574,46 +556,18 @@ export default function Home() {
                         <p key={item}>{item}</p>
                       ))}
                     </div>
-                    <section className="checklist-block">
-                      <h4>À vérifier</h4>
-                      {step.checklist.map((item, index) => (
-                        <CheckLine
-                          key={item}
-                          checked={Boolean(state.openingChecks[step.id]?.[index])}
-                          onChange={() => toggleOpeningCheck(step.id, index)}
-                        >
-                          {item}
-                        </CheckLine>
-                      ))}
-                    </section>
                   </article>
                 ))}
               </div>
 
-              <div className="two-column">
-                <section className="workspace-band">
-                  <h3>Objections probables</h3>
-                  {selectedPlan.objections.map((objection) => (
-                    <article key={objection.id} className="objection-card">
-                      <strong>{objection.label}</strong>
-                      <p>{objection.answer}</p>
-                    </article>
+              <section className="workspace-band action-band">
+                <h3>Actions à tester</h3>
+                <ul className="priority-list">
+                  {selectedPlan.nextActions.map((action) => (
+                    <li key={action}>{action}</li>
                   ))}
-                </section>
-
-                <section className="workspace-band">
-                  <h3>Actions à tester</h3>
-                  {selectedPlan.nextActions.map((action, index) => (
-                    <CheckLine
-                      key={action}
-                      checked={Boolean(state.actionChecks[selectedPlan.id]?.[index])}
-                      onChange={() => toggleActionCheck(selectedPlan.id, index)}
-                    >
-                      {action}
-                    </CheckLine>
-                  ))}
-                </section>
-              </div>
+                </ul>
+              </section>
             </>
           ) : (
             <LeaderSummary onGo={openView} />

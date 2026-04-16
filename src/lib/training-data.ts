@@ -11,7 +11,6 @@ export type OpeningStep = {
   title: string;
   objective: string;
   formulations: string[];
-  checklist: string[];
 };
 
 export type DiscoveryTheme = {
@@ -22,12 +21,6 @@ export type DiscoveryTheme = {
   followUps: string[];
   signals: string[];
   avoid: string[];
-};
-
-export type Objection = {
-  id: string;
-  label: string;
-  answer: string;
 };
 
 export type CollaboratorPlan = {
@@ -41,7 +34,6 @@ export type CollaboratorPlan = {
   promise: string;
   openingSteps: OpeningStep[];
   discoveryThemes: DiscoveryTheme[];
-  objections: Objection[];
   nextActions: string[];
   pitchIds: string[];
   scenarioIds: string[];
@@ -114,7 +106,7 @@ export const noteFields: {
     id: "practice",
     label: "Entraînement",
     placeholder:
-      "Ce qui a marché en simulation, points à corriger, objections rencontrées.",
+      "Ce qui a marché en simulation, points à corriger, freins rencontrés.",
   },
   {
     id: "nextActions",
@@ -128,29 +120,14 @@ const baseOpening = {
   ice: {
     objective:
       "Installer une relation simple et envoyer le signal que l'échange sera utile.",
-    checklist: [
-      "Le démarrage est humain, court et naturel.",
-      "Je ne présente pas l'offre trop tôt.",
-      "Je garde une posture de partenaire, pas de vendeur pressé.",
-    ],
   },
   frame: {
     objective:
       "Rassurer le client sur la méthode, le timing et le déroulé de l'entretien.",
-    checklist: [
-      "Le client sait pourquoi on échange.",
-      "Le timing est annoncé et validé.",
-      "Le plan annonce une vraie découverte avant toute proposition.",
-    ],
   },
   validation: {
     objective:
       "Obtenir un premier oui et vérifier que le terrain de discussion est partagé.",
-    checklist: [
-      "Le client valide le sujet à traiter.",
-      "Je reformule le besoin apparent sans l'enfermer.",
-      "Je peux basculer vers la découverte sans rupture.",
-    ],
   },
 };
 
@@ -165,7 +142,6 @@ function buildOpeningSteps(subject: string, pitch: string): OpeningStep[] {
         "Avant de parler solution, j'aimerais comprendre comment le sujet se passe chez vous aujourd'hui.",
         "L'idée n'est pas de vous faire un catalogue, mais de voir si GDS peut vous aider sur un point vraiment utile.",
       ],
-      checklist: baseOpening.ice.checklist,
     },
     {
       id: "cadre-plan-timing",
@@ -177,7 +153,6 @@ function buildOpeningSteps(subject: string, pitch: string): OpeningStep[] {
         "Ensuite, je vous poserai quelques questions sur votre situation actuelle, vos irritants et les conséquences concrètes.",
         "Si on voit qu'il y a un vrai sujet, on pourra regarder ensemble la suite logique. Est-ce que ce déroulé vous convient ?",
       ],
-      checklist: baseOpening.frame.checklist,
     },
     {
       id: "validation",
@@ -188,7 +163,6 @@ function buildOpeningSteps(subject: string, pitch: string): OpeningStep[] {
         "Je vous arrêterai si je comprends mal, et je vous demanderai parfois des exemples concrets.",
         "L'objectif est que vous ressortiez avec une lecture plus claire, même si nous ne travaillons pas ensemble tout de suite.",
       ],
-      checklist: baseOpening.validation.checklist,
     },
     {
       id: "pitch",
@@ -196,11 +170,6 @@ function buildOpeningSteps(subject: string, pitch: string): OpeningStep[] {
       objective:
         "Crédibiliser GDS en quelques phrases, puis rendre la parole au client.",
       formulations: [pitch, "Pour bien partir, dites-m'en plus sur votre situation actuelle."],
-      checklist: [
-        "Le pitch tient en moins de 40 secondes.",
-        "Je parle du problème client avant de parler de GDS.",
-        "Je termine par une question ouverte.",
-      ],
     },
   ];
 }
@@ -419,20 +388,6 @@ export const collaboratorPlans: CollaboratorPlan[] = [
         ],
       },
     ],
-    objections: [
-      {
-        id: "deja-actions",
-        label: "Nous avons déjà des actions handicap.",
-        answer:
-          "Justement, l'enjeu n'est pas de rajouter une action. C'est de voir si vos actions font système, si elles sont prouvables et si elles servent vraiment vos objectifs RH, RSE et économiques.",
-      },
-      {
-        id: "pas-budget",
-        label: "Nous n'avons pas de budget dédié.",
-        answer:
-          "Je comprends. Dans ce cas, regardons d'abord ce que le manque de pilotage coûte déjà: contribution, temps RH, preuves manquantes, risques ou opportunités RSE non valorisées.",
-      },
-    ],
     nextActions: [
       "Identifier le décideur réel derrière chaque demande handicap.",
       "Faire verbaliser une conséquence avant de proposer une action.",
@@ -531,20 +486,6 @@ export const collaboratorPlans: CollaboratorPlan[] = [
           "Paraphraser sans faire progresser la compréhension.",
           "Utiliser trop de vocabulaire interne GDS.",
         ],
-      },
-    ],
-    objections: [
-      {
-        id: "pas-clair",
-        label: "Je ne suis pas sûr que ce soit votre sujet.",
-        answer:
-          "C'est justement ce que l'on peut clarifier ensemble. Si ce n'est pas le bon sujet GDS, je préfère le voir vite; si c'est le bon, on aura déjà identifié le bon angle.",
-      },
-      {
-        id: "on-verra",
-        label: "On verra plus tard.",
-        answer:
-          "Bien sûr. Pour savoir si cela mérite d'attendre, quel serait le risque ou le coût si le sujet reste comme aujourd'hui pendant trois mois de plus ?",
       },
     ],
     nextActions: [
@@ -647,20 +588,6 @@ export const collaboratorPlans: CollaboratorPlan[] = [
         ],
       },
     ],
-    objections: [
-      {
-        id: "globalement-ok",
-        label: "Nous sommes globalement à jour.",
-        answer:
-          "C'est une bonne base. La question est de savoir si vous pouvez le prouver simplement, voir les retards avant qu'ils deviennent sensibles et éviter que le sujet consomme trop de temps RH.",
-      },
-      {
-        id: "interne",
-        label: "Nous le faisons déjà en interne.",
-        answer:
-          "Dans ce cas, l'intérêt n'est pas de vous retirer la main. C'est de regarder ce qui pourrait être fiabilisé, allégé ou rendu plus lisible pour vos équipes.",
-      },
-    ],
     nextActions: [
       "Demander une photographie de la conformité avant de proposer une solution.",
       "Relier chaque irritant à une conséquence RH ou direction.",
@@ -759,20 +686,6 @@ export const collaboratorPlans: CollaboratorPlan[] = [
           "Vendre de l'exécution sans parler visibilité.",
           "Promettre une automatisation totale si le flux reste humain.",
         ],
-      },
-    ],
-    objections: [
-      {
-        id: "pas-visible",
-        label: "Ce n'est pas un sujet prioritaire.",
-        answer:
-          "Je comprends, parce que le sujet est souvent invisible quand tout va bien. L'intérêt est justement d'éviter que les anomalies, les retards ou les pertes de financement apparaissent trop tard.",
-      },
-      {
-        id: "trop-specifique",
-        label: "Notre fonctionnement est très spécifique.",
-        answer:
-          "C'est pour cela que la découverte est importante. On ne cherche pas à imposer un modèle unique, mais à identifier les étapes qui doivent être fiabilisées chez vous.",
       },
     ],
     nextActions: [
@@ -875,20 +788,6 @@ export const collaboratorPlans: CollaboratorPlan[] = [
         ],
       },
     ],
-    objections: [
-      {
-        id: "deja-outils",
-        label: "Nous avons déjà des outils.",
-        answer:
-          "Très bien. La question est alors de savoir si les outils donnent vraiment de la lisibilité, si les flux sont tenus et si les équipes gagnent du temps. GDS intervient souvent là où l'outil ne suffit pas à cadrer l'exécution.",
-      },
-      {
-        id: "pas-externaliser",
-        label: "Nous ne voulons pas tout externaliser.",
-        answer:
-          "Ce n'est pas nécessaire. On peut commencer par identifier ce qui doit rester chez vous, ce qui peut être cadré, et ce qui pèse inutilement sur vos équipes.",
-      },
-    ],
     nextActions: [
       "Toujours cartographier le flux avant de parler solution.",
       "Demander l'indicateur qui manque au client.",
@@ -987,20 +886,6 @@ export const collaboratorPlans: CollaboratorPlan[] = [
           "Parler recyclage sans usage concret.",
           "Oublier la dimension sociale et locale.",
         ],
-      },
-    ],
-    objections: [
-      {
-        id: "deja-couturiere",
-        label: "Nous avons déjà quelqu'un.",
-        answer:
-          "Très bien. Dans ce cas, l'intérêt est de voir s'il reste des irritants: délai, proximité, volume, urgence ou besoin ponctuel que votre solution actuelle ne couvre pas toujours.",
-      },
-      {
-        id: "pas-volume",
-        label: "Nous n'avons pas beaucoup de volume.",
-        answer:
-          "On peut justement démarrer simplement, sur un test ou une demande récurrente courte. Le sujet n'a pas besoin d'être massif pour devenir utile si le service fluidifie une vente ou une expérience client.",
       },
     ],
     nextActions: [

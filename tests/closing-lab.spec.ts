@@ -39,6 +39,11 @@ test("mobile flow loads each collaborator plan, persists notes, and exports JSON
     await expect(page.getByText(plan.pole).first()).toBeVisible();
     await expect(page.getByText(plan.promise)).toBeVisible();
     await expect(page.getByText("Pitch court")).toBeVisible();
+    await expect(page.getByText("À vérifier")).toHaveCount(0);
+    await expect(page.getByText("Objections probables")).toHaveCount(0);
+    await expect(page.locator(".sequence-card input[type='checkbox']")).toHaveCount(
+      0,
+    );
 
     await page
       .locator(".module-tabs")
@@ -112,7 +117,7 @@ test("content guardrails keep the public app sober and complete", () => {
     expect(plan.pitchIds.length).toBeGreaterThanOrEqual(1);
     expect(plan.discoveryThemes.length).toBeGreaterThanOrEqual(3);
     expect(plan.scenarioIds.length).toBeGreaterThanOrEqual(1);
-    expect(plan.objections.length).toBeGreaterThanOrEqual(1);
+    expect(plan.nextActions.length).toBeGreaterThanOrEqual(1);
   }
 
   for (const scenario of trainingScenarios) {
