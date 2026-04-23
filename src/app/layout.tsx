@@ -17,7 +17,7 @@ const fraunces = Fraunces({
 export const metadata: Metadata = {
   title: "GEDEAS Sales Lab",
   description:
-    "Application terrain pour préparer la prise de contact, la découverte et les pitchs commerciaux GEDEAS.",
+    "Application terrain pour préparer la prise de contact, la découverte, l'argumentation, les objections et le closing GEDEAS.",
 };
 
 export default function RootLayout({
